@@ -17,41 +17,30 @@ To do that you just have to enter the following command in arsenal:
 >set ip=10.10.10.10
 ``` 
 
-Authors: 
+Fork Author:
+* vee0x0
+
+Original Authors: 
 * Guillaume Muh
 * mayfly
 
-This project is inspired by navi (<https://github.com/denisidoro/navi>) because the original version was in bash and too hard to understand to add features
+Original project is inspired by navi (<https://github.com/denisidoro/navi>).
 
 
-## Arsenal new features
+## Differences with the original projet
 
-![](img/arsenal_update.png)
+![image](https://github.com/user-attachments/assets/f56fd8fd-0851-4b59-979a-1b9e483e38ed)
 
-- New colors
-- Add tmux new pane support (with -t)
-- Add default values in cheatsheets commands with `<argument|default_value>`
-- Support description inside cheatsheets
-- New categories and Tags
-- New cheatsheets
-- Add yml support (thx @0xswitch )
-- Add fzf support with ctrl+t (thx @mgp25)
-- Add prefix to commands generated (with -f)
+- Updated cheatsheet (Work On Progress)
+- Changed tags
+- New tag + indicator on the type of access required to perform the attack 
+- Removed tags from the description inside cheatsheets
+- Added a "requirements" field
+- Small GUI customization
 
 ## Install & Launch
-- with pip :
 ```
-python3 -m pip install arsenal-cli
-```
-
-- run (we also advice you to add this alias : `alias a='arsenal'`)
-```
-arsenal
-```
-
-- manually:
-```
-git clone https://github.com/Orange-Cyberdefense/arsenal.git
+git clone https://github.com/cyrilbister/arsenal.git
 cd arsenal
 python3 -m pip install -r requirements.txt
 ./run
@@ -60,17 +49,6 @@ python3 -m pip install -r requirements.txt
 Inside your .bashrc or .zshrc add the path to `run` to help you do that you could launch the addalias.sh script
 ```
 ./addalias.sh
-```
-
-- Also if you are an Arch user you can install from the AUR:
-```bash
-git clone https://aur.archlinux.org/arsenal.git
-cd arsenal 
-makepkg -si
-```
-- Or with an AUR helper like yay:
-```bash
-yay -S arsenal
 ```
 
 ## Launch in tmux mode
@@ -167,130 +145,220 @@ More information is available in the issue [https://github.com/Orange-Cyberdefen
 - Active directory ACE mindmap
 ![](./mindmap/ACEs_xmind.png)
 
-## TODO cheatsheets 
+## CheatSheets
 
-### reverse shell
-- [X] msfvenom
-- [X] php
-- [X] python
-- [X] perl
-- [X] powershell
-- [X] java
-- [X] ruby
-
-### whitebox analysis grep regex
-- [X] php
-- [X] nodejs
-- [X] hash
-
-### Tools
-
-#### smb
-- [X] enum4linux 
-- [X] smbmap
-- [ ] smbget     
-- [X] rpcclient
-- [ ] rpcinfo
-- [X] nbtscan
-- [X] impacket
-
-#### kerberos & AD
-- [X] impacket
-- [X] bloodhound
-- [X] rubeus
+#### Active Directory / Windows
+- [x] addcomputer
+- [ ] addspn.py
+- [ ] badsuccessor
+- [ ] (b)ettercap
+- [ ] bloodhound (+ queries + shadowhound & sharphound & rusthound)
+- [ ] certipy
+- [x] cme/nxc
+- [ ] coercer
+- [ ] com/dcom
+- [ ] davrelayup
+- [x] dementor
+- [x] dnstool.py
+- [x] donpapi
+- [x] dropthemic
+- [ ] finduncommonshare.py
+- [x] get-gpppassword
+- [ ] gpoditty
+- [ ] gpoparser
+- [ ] grouppolicybackdoor
+- [x] impersonate
+- [ ] kerberos tickets
+- [ ] krbrelayup
+- [ ] krbrelayx.py
+- [ ] laps
+- [ ] ldapsearch
+- [ ] lsassy
+- [ ] ludushound
+- [ ] mimikatz
+- [ ] mitm6
+- [ ] nauth
+- [ ] nopac
+- [ ] netmandll
+- [ ] ntlmrelayx
+- [ ] ouned
+- [ ] petitpotam
+- [ ] potatoes
+- [ ] powershell
 - [ ] powerview
-- [ ] shadow credentials attack
-- [ ] samaccountname attack
+- [ ] pretender
+- [ ] printerbug
+- [x] printnightmare
+- [ ] privesccheck
+- [ ] privexchange
+- [x] ptsd
+- [ ] pypykatz
+- [ ] responder
+- [ ] rpcbind
+- [ ] rpcclient
+- [ ] rpcdump
+- [ ] rubeus
+- [ ] secretsdump
+- [ ] sccm
+- [ ] scshell
+- [ ] shadow credentials
+- [ ] sharehound
+- [ ] sharprdp
+- [ ] wireshark
+- [ ] wsus spoofing
+- [ ] zerologon
 
-#### MITM
-- [X] mitm6
-- [X] responder
+#### Linux
+- [ ] enum4linux
+- [ ] linpeas 
+
+#### AS/400
+- [ ] as-rmtcmd.py
+- [ ] rexec
+
+#### Pivoting
+- [ ] ligolo-ng
+- [ ] chisel
+- [ ] socat
+- [ ] ssh
 
 #### Unserialize
-- [X] ysoserial
+- [ ] ysoserial
 - [ ] ysoserial.net
 
-### bruteforce & pass cracking
-- [X] hydra
-- [X] hashcat
-- [X] john
+### Bruteforce & pass cracking
+- [ ] crackfiles
+- [x] hydra
+- [ ] hashcat
+- [x] john
+- [ ] kraken
 
-#### scan
-- [X] nmap
-- [X] eyewitness
-- [X] gowitness
+#### Scan
+- [ ] ivre
+- [ ] masscan
+- [ ] nmap
+- [ ] rustscan
+- [ ] eyewitness
+- [ ] gowitness
 
-#### fuzz    
-- [X] gobuster
-- [X] ffuf
-- [X] wfuzz
+#### Fuzz    
+- [ ] gobuster
+- [ ] ffuf
+- [ ] wfuzz
 
 #### DNS
-- [X] dig
-- [X] dnsrecon
-- [X] dnsenum
-- [X] sublist3r
+- [ ] dig
+- [ ] dnsrecon
+- [ ] dnsenum
+- [ ] sublist3r
 
-#### rpc
-- [ ] rpcbind
+#### Netbios-ssn
+- [ ] snmpwalk
+- [ ] snmp-check
+- [ ] onesixtyone
 
-#### netbios-ssn
-- [X] snmpwalk
-- [X] snmp-check
-- [X] onesixtyone
+#### SQL
+- [ ] sqlmap 
 
-#### sql
-- [X] sqlmap 
-
-#### oracle
+#### Oracle
 - [ ] oscanner
 - [ ] sqlplus
 - [ ] tnscmd10g
 
-#### mysql
-- [X] mysql
+#### MySQL
+- [ ] mysql
 
-#### nfs
-- [X] showmount
+#### MSSQL
+- [ ] sqsh
 
-#### rdp
-- [X] xfreerdp
-- [X] rdesktop
-- [ ] ncrack
-
-#### mssql
-- [X] sqsh
-
-#### winrm
-- [X] evilwinrm
-
-#### redis
+#### Redis
 - [ ] redis-cli
 
-#### postgres
-- [X] psql
+#### Postgres
+- [ ] psql
 - [ ] pgdump
 
-#### vnc
-- [X] vncviewer
+#### MongoDB
+- [ ] mongodb
+      
+#### NFS
+- [ ] showmount
 
-#### x11
-- [X] xspy
-- [X] xwd
-- [X] xwininfo
+#### RDP
+- [ ] ncrack
+- [ ] remmina
+- [ ] rdesktop
+- [ ] xfreerdp
 
-#### ldap
-- [X] ldapsearch
+#### WinRM
+- [ ] evilwinrm
 
-#### https
-- [ ] sslscan
+#### VNC
+- [ ] vncviewer
 
-#### web 
+#### X11
+- [ ] xspy
+- [ ] xwd
+- [ ] xwininfo
+
+#### Web 
 - [ ] burp
-- [X] nikto
-- [ ] tplmap
-
-#### app web
-- [X] drupwn
-- [X] wpscan
+- [ ] drupwn
+- [ ] jwt_tool
+- [ ] nikto
 - [ ] nuclei
+- [ ] openssl
+- [ ] sslscan
+- [ ] tomcat
+- [ ] tplmap
+- [ ] wpscan
+
+#### Mobile
+- [x] adb
+- [ ] apktool
+- [ ] frida
+- [ ] mobsf
+- [ ] objection
+
+#### Wi-Fi
+- [ ] aircrack-ng
+- [ ] airmon-ng
+- [ ] airodump-ng
+- [ ] hcx
+- [ ] reaver
+
+#### Cloud
+- [ ] aws-cli
+- [ ] git-secrets
+- [ ] scout
+- [ ] trufflehog
+
+#### Reverse shell
+- [ ] msfvenom
+- [ ] php
+- [ ] python
+- [ ] perl
+- [ ] powershell
+- [ ] java
+- [ ] ruby
+
+#### Whitebox analysis grep regex
+- [ ] php
+- [ ] nodejs
+- [ ] hash
+
+#### Whitebox static analysis
+- [ ] semgrep
+
+#### SMB
+- [ ] smbmap
+- [ ] smbclient
+- [ ] smbget     
+- [ ] rpcinfo
+- [ ] nbtscan
+
+#### C2
+- [ ] empire
+- [ ] havoc
+- [ ] sliver
+- [ ] gorsh
