@@ -1,9 +1,12 @@
 # mitm6
 
-% mitm6, ipv6, man in the middle
+% mitm6, ipv6, Active Directory
 
-## run mitm6 (to run with impacket-ntlmrelayx)
-#plateform/linux #target/remote #cat/ATTACK/MITM 
-```
+## mitm6 (to run with ntlmrelayx)
+#assessment/AD #attack_type/Coerce_Relay #access/Anonymous
+
+Listen and perfmirm IPv6 poisoning.
+
+```bash
 mitm6 -d <domain>
 ```

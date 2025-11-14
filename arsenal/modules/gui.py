@@ -89,7 +89,9 @@ class CheatslistMenu:
 
         tags = cheat.get_tags()
 
-        columns_list = ["title", "name", "description"]
+        access = cheat.get_access() or 'N/A'
+
+        columns_list = ["access", "title", "name", "description"]
         if Gui.with_tags:
             columns_list = ["tags"] + columns_list
 
@@ -107,6 +109,9 @@ class CheatslistMenu:
         columns = {"tags": {"width": get_col_size(max_width, ratios.get("tags", 0)),
                             "val": tags,
                             "color": Gui.COL4_COLOR_SELECT if selected else Gui.COL4_COLOR},
+                   "access": {"width": get_col_size(max_width, ratios.get("access", 0)),
+                            "val": access,
+                            "color": Gui.COL5_COLOR_SELECT if selected else Gui.COL5_COLOR},
                    "title": {"width": get_col_size(max_width, ratios.get("title", 0)),
                              "val": cheat.str_title,
                              "color": Gui.COL3_COLOR_SELECT if selected else Gui.COL1_COLOR},
@@ -529,10 +534,29 @@ class ArgslistMenu:
         """
         # draw description
         if len(description_lines) > 0:
-            argprev.addstr(p_y, p_x, "-----", curses.color_pair(Gui.BASIC_COLOR))
+            argprev.addstr(p_y, p_x, "", curses.color_pair(Gui.BASIC_COLOR))
             p_y += 1
             for description_line in description_lines:
-                argprev.addstr(p_y, p_x, description_line, curses.color_pair(Gui.BASIC_COLOR))
+                if description_line.strip().startswith('__'):
+                    description_line = description_line.lstrip('__')
+                    argprev.addstr(p_y, p_x, description_line, curses.color_pair(Gui.BASIC_COLOR) | curses.A_ITALIC)
+                else:
+                    argprev.addstr(p_y, p_x, description_line, curses.color_pair(Gui.COL2_COLOR))
+                p_y += 1
+            p_y += 1
+            argprev.refresh()
+        return p_y
+    
+    def draw_req_preview(self, argprev, p_x, p_y, requirements_lines):
+        """
+        Draw the requirements_line preview in the preview windows (argprev)
+        """
+        # draw requirements
+        if len(requirements_lines) > 0:
+            argprev.addstr(p_y, p_x, "", curses.color_pair(Gui.BASIC_COLOR))
+            p_y += 1
+            for requirements_line in requirements_lines:
+                argprev.addstr(p_y, p_x, requirements_line, curses.color_pair(Gui.BASIC_COLOR))
                 p_y += 1
             p_y += 1
             argprev.refresh()
@@ -565,7 +589,7 @@ class ArgslistMenu:
                 # draw argument
                 if (i - 1) // 2 == self.current_arg:
                     # if arg is selected print in blue
-                    self.draw_preview_part(argprev, arg, curses.color_pair(Gui.ARG_NAME_COLOR))
+                    self.draw_preview_part(argprev, arg, curses.color_pair(Gui.ARG_NAME_COLOR) | curses.A_BOLD)
                 else:
                     # else in white
                     self.draw_preview_part(argprev, arg, curses.color_pair(Gui.BASIC_COLOR))
@@ -579,7 +603,7 @@ class ArgslistMenu:
         """
         # init vars and set margins values
         self.height, self.width = stdscr.getmaxyx()
-        self.AB_SIDE = 5
+        self.AB_SIDE = 7
         padding_text_border = 3
         self.max_preview_size = self.width - (2 * self.AB_SIDE) - (2 * padding_text_border)
 
@@ -610,6 +634,9 @@ class ArgslistMenu:
         # prepare showed description
         description_lines = Gui.cmd.get_description_cut_by_size(ncols - (padding_text_border * 2))
 
+        # prepare showed requirements
+        requirements_lines = Gui.cmd.get_requirements_cut_by_size(ncols - (padding_text_border * 2))
+
         border_height = 1
         cmd_height = 1 + nbpreviewnewlines
         args_height = (2 + Gui.cmd.nb_args) if (Gui.cmd.nb_args > 0) else 0
@@ -618,8 +645,9 @@ class ArgslistMenu:
         cmd_pos = 1
         args_pos = border_height + cmd_height + 1
         desc_pos = args_pos + args_height - 1
+        req_pos = desc_pos + desc_height
 
-        nlines = border_height * 2 + cmd_height + args_height + desc_height
+        nlines = border_height * 2 + cmd_height + args_height + desc_height + 1
         if nlines > self.height:
             nlines = self.height
 
@@ -634,6 +662,9 @@ class ArgslistMenu:
 
             # draw description
             self.draw_desc_preview(argprev, padding_text_border, desc_pos, description_lines)
+
+            # draw requirements
+            self.draw_req_preview(argprev, padding_text_border, req_pos, requirements_lines)
 
             if len(Gui.cmd.args) > 0:
                 self.draw_args_list(args_pos)
@@ -772,24 +803,25 @@ class Gui:
     # colors
     BASIC_COLOR = 0  # output std
     COL1_COLOR = 7
-    COL2_COLOR = 4  # gold
+    COL2_COLOR = 4  # orange
     COL3_COLOR = 14  # purple light 
-    COL4_COLOR = 5  # 26  # violet clair: 14  # 4 yellow  # 6 purple # 7 cyan # 9 dark grey
-    COL5_COLOR = 5  # blue
+    COL4_COLOR = 5  #blue
+    COL5_COLOR = 12  # gold
     COL1_COLOR_SELECT = 256  # output std invert
-    COL2_COLOR_SELECT = 256
+    COL2_COLOR_SELECT = 14
     COL3_COLOR_SELECT = 256
     COL4_COLOR_SELECT = 256
+    COL5_COLOR_SELECT = 256
     CURSOR_COLOR_SELECT = 266  # background red
     PROMPT_COLOR = 0
     INFO_NAME_COLOR = 4  # 5
     INFO_DESC_COLOR = 0
     INFO_CMD_COLOR = 0
-    ARG_NAME_COLOR = 5
+    ARG_NAME_COLOR = 12
     loaded_menu = False
     with_tags = False
 
-    DEFAULT_RATIOS = {"tags": 14, "title": 8, "name": 23, "description": 55}
+    DEFAULT_RATIOS = {"tags": 9, "access": 7, "title": 8, "name": 20, "description": 55}
 
     def __init__(self):
         self.cheats_menu = None

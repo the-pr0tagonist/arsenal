@@ -48,9 +48,10 @@ class App:
         group_out.add_argument('-e', '--exec', action='store_true', help='Execute cmd')
         group_out.add_argument('-t', '--tmux', action='store_true', help='Send command to tmux panel')
         group_out.add_argument('-c', '--check', action='store_true', help='Check the existing commands')
-        group_out.add_argument('-f', '--prefix', action='store_true', help='command prefix')
+        group_out.add_argument('-f', '--prefix', action='store_true', help='Command prefix')
         group_out.add_argument('--no-tags', action='store_false', help='Whether or not to show the'
                                                                        ' tags when drawing the cheats')
+        parser.add_argument('-r', '--red-team', action='store_true', help='Retrieves commands with the tag #red-team/true')
         parser.add_argument('-V', '--version', action='version', version='%(prog)s (version {})'.format(__version__))
 
         return parser.parse_args()
@@ -59,7 +60,9 @@ class App:
         args = self.get_args()
 
         # load cheatsheets
-        cheatsheets = cheat.Cheats().read_files(config.CHEATS_PATHS, config.FORMATS,
+        cheats = cheat.Cheats()
+        cheats.red_team = args.red_team
+        cheatsheets = cheats.read_files(config.CHEATS_PATHS, config.FORMATS,
                                                 config.EXCLUDE_LIST)
 
         if args.check:

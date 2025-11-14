@@ -1,4 +1,5 @@
 # nmap
+% nmap, scan, ports
 
 #plateform/linux #target/remote #cat/RECON #tag/scan
 
@@ -72,4 +73,22 @@ nmap -Pn -sS -T4 --open --script smb-security-mode -p445 <ip>
 ## nmap behind proxy - tcp connect (-sT) - no dns (-n)
 ```
 proxychains nmap -n -sT -sV -Pn --open -oA <output_file> -iL <targets_file>
+```
+
+## Scan for MS17-010 (EternalBlue)
+#assessment/AD #attack_type/Quickwin #port/445 #port/139 #protocol/smb #access/Anonymous 
+
+Scan remote targets for MS17-010 (Eternalblue).
+
+```bash
+nmap -p445 --script smb-vuln-ms17-010 -iL <targets_file> -vv -oN <output_file>
+```
+
+## Scan for VEEAM servers
+#assessment/AD #attack_type/Quickwin #port/9401 #protocol/veeam #access/Anonymous 
+
+Scan for VEEAM backup servers.
+
+```bash
+nmap -sV -sC -p9401 --open <ip> -vv
 ```

@@ -29,46 +29,6 @@ sudo nano /etc/motd
 <process> &
 ```
 
-## List all running processes
-```
-ps -A
-```
-
-## Kill a running process
-```
-killall <Process-name>
-```
-
-## Get the current path
-```
-pwd
-```
-
-## Get the current hostname
-```
-hostname
-```
-
-## Get the current users
-```
-users
-```
-
-## Show calendar
-```
-cal
-```
-
-## Show today's date
-```
-date
-```
-
-## Exit terminal
-```
-exit
-```
-
 ## show process command
 ```
 ps -ef | grep apache | grep -v grep
@@ -89,44 +49,9 @@ ls -Slrh
 ls -altr
 ```
 
-## List directory (wildcard matching)
-```
-ls *.<txt>
-```
-
 ## List all files of type
 ```
 find . -name *.<txt> -print
-```
-
-## Go back to previous directory
-```
-cd -
-```
-
-## Make (empty) directory
-```
-mkdir <dirname>
-```
-
-## Remove (empty) directory
-```
-rmdir <dirname>
-```
-
-## Remove directory with all contents without prompt
-```
-rm -rf <dirname>
-```
-
-## Remove directory contents and keep directory
-```
-rm -rf *
-```
-
-## Change directory
-```
-cd <dirname>
 ```
 
 ## Create symlink
@@ -149,11 +74,6 @@ unlink <sample-dirname>
 touch <filename-txt>
 ```
 
-## Copy file
-```
-cp <filename> <file-copyname>
-```
-
 ## Copy/Page folder with content
 ```
 cp -a <old-folder>/ <new-folder>
@@ -167,21 +87,6 @@ mv <current-filename-path> <new-filename-path>
 ## Move/Rename file and prompt before overwriting an existing file
 ```
 mv -i <current-filename> <new-filename>
-```
-
-## Remove file
-```
-rm <filename-txt>
-```
-
-## Write to file (will overwrite existing content)
-```
-cat > <filename-txt> 
-```
-
-## Search for a filename-(not content!) in the current directory
-```
-find <filename-txt>
 ```
 
 ## Search for a string inside all files in the current directory and subdrectories
@@ -254,11 +159,6 @@ du -hs
 top or htop
 ```
 
-## Show running php processes
-```
-ps aux | grep php
-```
-
 ## Monitor error log (stream as file grows)
 ```
 tail error.log -f -n 0
@@ -274,19 +174,9 @@ xdg-open <programme>
 export <TESTING>=<Variable-text>
 ```
 
-## Echo variable
-```
-echo $<Variable>
-```
-
 ## Unset variable
 ```
 unset <Variable>
-```
-
-## Write to file
-```
-echo <Hello> > <hello-txt>
 ```
 
 ## Append content from a file to another file

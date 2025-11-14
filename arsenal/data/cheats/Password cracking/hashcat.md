@@ -2,53 +2,82 @@
 
 % password recovery, password cracking
 
-#plateform/linux  #target/local  #cat/CRACKING/PASSWORD 
+#assessment/AD #attack_type/Bruteforce #access/None
 
-## hashcat - basic md5 (joomla/wordpress) - wordlist
-```
-hashcat -a 0 -m 400 hashes <wordlist>
-```
+## LM
+#assessment/AD #attack_type/Bruteforce #access/None
+Crack LM hashes.
 
-## hashcat - basic md5 (joomla/wordpress) - wordlist with rules
-```
-hashcat -a 0 -m 400 hashes <wordlist> -r /usr/share/doc/hashcat/rules/best64.rule 
+```bash
+hashcat -m 3000 --force -a 0 <hashes> <wordlist> 
 ```
 
-## hashcat - kerberos ticket (after kerberoasting)
-```
-hashcat -m 13100 --force -a 0 hashes <wordlist> 
+## NTLM (NTDS.dit)
+#assessment/AD #attack_type/Bruteforce #access/None
+Crack NTLM hashes.
+
+```bash
+hashcat -m 1000 --force -a 0 <hashes> <wordlist> 
 ```
 
-## hashcat - LM
-```
-hashcat -m 3000 -a 0 hashes <wordlist> 
+## NTLMv1
+#assessment/AD #attack_type/Bruteforce #access/None
+Crack NTLMv1 hashes.
+
+```bash
+hashcat -m 5500 --force -a 0 <hashes> <wordlist> 
 ```
 
-## hashcat - NTLM
-```
-hashcat -m 1000 -a 0 hashes <wordlist> 
+## NTLMv2
+#assessment/AD #attack_type/Bruteforce #access/None
+Crack NTLMv2 hashes.
+
+```bash
+hashcat -m 5600 --force -a 0 <hashes> <wordlist> 
 ```
 
-## hashcat - NTLMv1
-```
-hashcat -m 5500 -a 0 hashes <wordlist> 
+## NTLMv2 - Combination attack (ex:passpass,testtest,passtest,etc)
+#assessment/AD #attack_type/Bruteforce #access/None
+
+
+```bash
+hashcat -m 5600 --force -a 1 <hashes> <custom_wordlist> <custom_wordlist>
 ```
 
-## hashcat - NTLMv2
-```
-hashcat -m 5600 -a 0 hashes <wordlist> 
+## Kerberos ticket (after kerberoasting) 
+#assessment/AD #attack_type/Bruteforce #access/None
+Crack Kerberos 5 TGS-REP etype 23 hashes.
+
+```bash
+hashcat -m 13100 user_SPN.ticket <wordlist>
 ```
 
-## hashcat - NTLMv2 - Combination attack (ex:passpass,testtest,passtest,etc)
-```
-hashcat -m 5600 --force -a 1 hashes <custom_wordlist> <custom_wordlist>
+## Basic MD5 (joomla/wordpress) - wordlist
+#assessment/Web #attack_type/Bruteforce #access/None
+Crack basic MD5 hashes.
+
+```bash
+hashcat -a 0 -m 400 <hashes> <wordlist>
 ```
 
-## hashcat - generate wordlist using rules
+## Basic MD5 (joomla/wordpress) - wordlist with rules
+#assessment/Web #attack_type/Bruteforce #access/None
+Crack basic MD5 hashes using rulesets.
+
+```bash
+hashcat -a 0 -m 400 <hashes> <wordlist> -r /usr/share/doc/hashcat/rules/best64.rule 
 ```
+
+
+
+## Generate wordlist using rules
+#assessment/All #attack_type/Bruteforce #access/None
+Generate a wordlist using rulesets.
+
+```bash
 cat keywords.txt | hashcat -r <rule_file> --stdout > ./<custom_wordlist>
 ```
 
-= wordlist: /usr/share/wordlist/rockyou.lst
+= wordlist: `fzf-wordlists`
 = rule_file: /usr/share/doc/hashcat/rules/best64.rule 
-= custom_wordlist: myCustomWordlist.txt
+= custom_wordlist:

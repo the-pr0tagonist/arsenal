@@ -1,90 +1,69 @@
 # Hydra
 
-% bruteforce, access
+% hydra, bruteforce
 
-## Hydra - ssh - userlist and password list - 22
-#plateform/linux #target/remote #protocol/ssh #port/22 #cat/ATTACK/BRUTEFORCE-SPRAY 
+## Bruteforce a user access
+#assessment/All #attack_type/Bruteforce #access/Anonymous
+
+Bruteforce access to an exposed service for a specific user.
+Common protocols :
+    - ftp           - mssql
+    - ssh           - mysql
+    - telnet        - postgres
+    - smtp          - mongodb
+    - snmp          - rdp
+    - smb           - vnc   
+    
+```bash
+hydra -l <user> -P <wordlist> <ip> <protocol> 
+```
+
+## Bruteforce Web form
+#assessment/Web #attack_type/Bruteforce #access/Anonymous
+
+Bruteforce access to an exposed web login interface.
+    
+```bash
+hydra -l <user> -P <wordlist> <ip> http-post-form "/<endpoint>:username=^USER^&password=^PASS^:F=<error_wording>" -V
+```
+
+## Bruteforce WordPress
+#assessment/Web #attack_type/Bruteforce #access/Anonymous
+
+Bruteforce access to an exposed WordPress login interface.
+    
+```bash
+hydra -l <user> -P <wordlist> MACHINE_IP http-post-form "/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=<wp-submit>:F=incorrect" -V
+```
+
+## Bruteforce with file "login:pass" format
+#assessment/All #attack_type/Bruteforce #access/Anonymous
+
+Bruteforce access to an exposed service using a file with "login:pass" format.
+Common protocols :
+    - ftp           - mssql
+    - ssh           - mysql
+    - telnet        - postgres
+    - smtp          - mongodb
+    - snmp          - rdp
+    - smb           - vnc
+    
+```bash
+hydra -t 4 -s <port> -C <file_login_pass> <ip> <protocol> 
+```
+
+## Password spray (user=password)
+#assessment/All #attack_type/Bruteforce #access/Anonymous
+
+Password spray access to an exposed service with user=password.
+Common protocols :
+    - ftp           - mssql
+    - ssh           - mysql
+    - telnet        - postgres
+    - smtp          - mongodb
+    - snmp          - rdp
+    - smb           - vnc  
 
 ```bash
-hydra -L <userlist> -P <passlist> <ip> ssh 
+hydra -L <users.list> -e s <ip> <protocol>  
 ```
-
-## Hydra - ssh - user and password  - 22
-#plateform/linux #target/remote #protocol/ssh #port/22 #cat/ATTACK/BRUTEFORCE-SPRAY 
-
-```bash
-hydra -l <user|root> -p <password|root> <ip> ssh 
-```
-
-## Hydra - ssh - user=password - 22
-#plateform/linux #target/remote #protocol/ssh #port/22 #cat/ATTACK/BRUTEFORCE-SPRAY 
-
-```
-hydra -L <userlist> -e s <ip> ssh 
-```
-
-## Hydra - ssh - null password - 22
-#plateform/linux #target/remote #protocol/ssh #port/22 #cat/ATTACK/BRUTEFORCE-SPRAY 
-
-```
-hydra -l <user|root> -e n <ip> ssh 
-```
-
-## Hydra - ssh - password=reverseuser - 22
-#plateform/linux #target/remote #protocol/ssh #port/22 #cat/ATTACK/BRUTEFORCE-SPRAY 
-
-```
-hydra -L <userlist> -e r <ip> ssh 
-```
-
-## Hydra - ssh - file "login:pass" format - specify port
-#plateform/linux #target/remote #protocol/ssh #port/custom #cat/ATTACK/BRUTEFORCE-SPRAY 
-
-```
-hydra -t 4 -s <port> -C <file_login_pass> <ip> ssh 
-```
-
-## Hydra - ftp - 21 
-#protocol/ftp #port/21 #plateform/linux #target/remote  #cat/ATTACK/BRUTEFORCE-SPRAY 
-
-```
-hydra -L <userlist> -P <passlist> <ip> ftp 
-```
-
-## Hydra - smb - 445
-#protocol/smb #port/445 #plateform/linux #target/remote #cat/ATTACK/BRUTEFORCE-SPRAY 
-
-```
-hydra -L <userlist> -P <passlist> <ip> smb
-```
-
-## Hydra - mysql - 3306
-#protocol/mysql #port/3306 #plateform/linux #target/remote #cat/ATTACK/BRUTEFORCE-SPRAY 
-
-```
-hydra -L <userlist> -P <passlist> <ip> mysql 
-```
-
-## Hydra - vnc - 5900
-#protocol/vnc #port/5900 #plateform/linux #target/remote #cat/ATTACK/BRUTEFORCE-SPRAY 
-
-```
-hydra -L <userlist> -P <passlist> <ip> vnc 
-```
-
-## Hydra - postgres - 5432
-#protocol/postgres #port/5432 #plateform/linux #target/remote #cat/ATTACK/BRUTEFORCE-SPRAY 
-
-```
-hydra -L <userlist> -P <passlist> <ip> postgres
-```
-
-## Hydra - telnet - 23
-#protocol/telnet #port/23 #plateform/linux #target/remote #cat/ATTACK/BRUTEFORCE-SPRAY 
-
-```
-hydra -L <userlist> -P <passlist> <ip> telnet 
-```
-
-= userlist: users.txt
-= passlist: pass.txt

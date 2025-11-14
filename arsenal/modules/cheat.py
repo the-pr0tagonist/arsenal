@@ -20,6 +20,7 @@ class Cheat:
     command = ""
     printable_command = ""
     description = ""
+    requirements = ""
     variables = dict()
     command_capture = False
     rate = 0
@@ -41,25 +42,36 @@ class Cheat:
         return rate
 
     def get_tags(self):
-        tags_dict = {'target/local': 'Loc',
-                     'target/remote': 'Rem',
-                     'target/serve': 'Ser',
-                     'plateform/linux': '[L] ',
-                     'plateform/windows': '[W] ',
-                     'plateform/mac': '[M] ',
-                     'plateform/multiple': '[*] '}
-
         tag_string = ''
+
         if self.command_tags is not None:
-            for tag_key in self.command_tags.keys():
-                tag = tag_key + '/' + self.command_tags[tag_key]
-                if tag in tags_dict.keys():
-                    tag_string += '' + tags_dict[tag]
-                elif 'cat/' in tag:
-                    tag_string += ' ' + tag.split('cat/')[1].upper().strip()
+            for tag_key, tag_value in self.command_tags.items():
+                tag_value = tag_value.strip()
+
+                if tag_key == 'assessment':
+                    tag_string += f'[{tag_value}]'
+
+                elif tag_key == 'attack_type':
+                    tag_string += f' {tag_value}'
+
+                # Facultatif : pour ne pas perdre d'autres tags
                 # else:
-                #     tag_string += '|' + tag.lower().strip()
-        return tag_string
+                #     tag_string += f'|{tag_key}/{tag_value}'
+
+        return tag_string.strip()
+
+    def get_access(self):
+        access_string = ''
+
+        if self.command_tags is not None:
+            for tag_key, tag_value in self.command_tags.items():
+                tag_value = tag_value.strip()
+
+                if tag_key == 'access':
+                    access_string += f'{tag_value}'
+        
+        return access_string.strip()
+
 
 
 class ArsenalRstVisitor(nodes.GenericNodeVisitor):
@@ -131,9 +143,13 @@ class Cheats:
     current_cheat = Cheat()
     cheatsheets = dict()
 
+    def __init__(self):
+        self.red_team = False
+
     def new_cheat(self):
         self.current_cheat = Cheat()
         self.current_cheat.command = ''
+        self.current_cheat.requirements = ''
         self.current_cheat.description = ''
         if self.titles == []:
             self.current_cheat.titles = ""
@@ -289,6 +305,7 @@ class Cheats:
         self.firsttitle = ''
         self.cheatlist = []
         self.current_tags = ''
+        self.requirements = ''
         self.filevars = {}
         self.titles = []
         self.new_cheat()
@@ -404,6 +421,11 @@ class Cheats:
                     self.filevars[varname] = varval
                     continue
 
+                # Requirements
+                if line.strip().startswith('⚠️'):
+                    self.current_cheat.requirements += line.rstrip()
+                    continue
+
                 # Else -> description
                 if line.strip() != '':
                     if self.current_cheat.description == '':
@@ -429,6 +451,8 @@ class Cheats:
         for cheat in self.cheatlist:
             cheat.filename = filename
             cheat.printable_command = cheat.command.replace('\\\n', '')
+            if not self.red_team and cheat.command_tags.get('red-team', '').lower() == 'true':
+                continue
             self.cheatsheets[cheat.str_title + cheat.name] = cheat
 
     def read_files(self, paths, file_formats, exclude_list):

@@ -6,6 +6,7 @@ import textwrap
 class Command:
     cmdline = ""
     description = ""
+    requirements = ""
     args = []  # [(name, value)]
     nb_args = 0
     nb_lines_cmd = 1
@@ -16,11 +17,8 @@ class Command:
 
         self.cmd_tags = cheat.command_tags
         self.description = ''
-        for tag in self.cmd_tags:
-            self.description += '[' + self.cmd_tags[tag] + '] '
-        if self.description != '' and cheat.description != '':
-            self.description += '\n-----\n'
         self.description += cheat.description
+        self.requirements += cheat.requirements
 
         self.get_args(cheat, gvars)
         self.nb_args = len(self.args)
@@ -36,6 +34,16 @@ class Command:
         desc_lines = self.description.split('\n')
         result = []
         for line in desc_lines:
+            result.extend(textwrap.wrap(line, size))
+        return result
+    
+    def get_requirements_cut_by_size(self, size):
+        """
+        The requirements cut by lines inside the gui size
+        """
+        req_lines = self.requirements.split('\n')
+        result = []
+        for line in req_lines:
             result.extend(textwrap.wrap(line, size))
         return result
 
